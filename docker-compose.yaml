@@ -1,0 +1,23 @@
+version: "3.6"
+services:
+  backup:
+    image: nekoimi/backup-mysql:8.0.33
+    container_name: backup
+    environment:
+      BACKUP_DB_HOST: 127.0.0.1
+      BACKUP_DB_PORT: 3306
+      BACKUP_USER: root
+      BACKUP_PASSWORD: 123456
+      # 需要备份的数据库数据库名称，多个使用,分隔
+      BACKUP_DB: db_one,db_two,db_three
+      # 数据库备份保留个数
+      BACKUP_STORAGE_NUMBER: 7
+    networks:
+      - backup
+    restart: on-failure
+    volumes:
+      - $PWD/data:/opt/backup:rw
+
+networks:
+  backup:
+    driver: bridge
